@@ -1,0 +1,79 @@
+.signup__container {
+  background-color: #282832;
+  border-radius: 10px;
+  max-width: 591px;
+  width: 496px;
+  &-header {
+    h1 {
+      text-align: center;
+      color: #ffffff;
+      font-size: 28px;
+      margin-top: 90px;
+      line-height: 19px;
+      font-family: 'Roboto', sans-serif;
+    }
+  }
+  &-main {
+    display: flex;
+    justify-content: center;
+    &-form {
+      display: flex;
+      flex-direction: column;
+      &-button {
+        display: flex;
+        justify-content: center;
+        margin-top: 30px;
+        button {
+          width: 192px;
+          height: 76px;
+          cursor: pointer;
+          background: #4d505f;
+          border-radius: 10px;
+          border: none;
+          color: #ffffff;
+          font-family: 'Roboto', sans-serif;
+          font-size: 22px;
+        }
+      }
+      label {
+        margin: 19px 0;
+        input {
+          width: 378px;
+          padding: 22px 5px;
+          border-radius: 10px;
+          outline: none;
+        }
+        p {
+          color: #ffffff;
+          line-height: 19px;
+          font-family: 'Roboto', sans-serif;
+          font-weight: 500;
+          font-size: 14px;
+        }
+      }
+    }
+  }
+  &-footer {
+    padding: 0 52px;
+    margin-top: 40px;
+    margin-bottom: 40px;
+    &-context {
+      &-text {
+        color: #ffffff;
+        font-family: 'Roboto', sans-serif;
+        line-height: 19px;
+        font-size: 16px;
+        font-weight: 500;
+      }
+      &-link {
+        color: #ffffff;
+        font-family: 'Roboto', sans-serif;
+        line-height: 19px;
+        font-size: 16px;
+        font-weight: 500;
+        text-decoration-line: underline;
+        cursor: pointer;
+      }
+    }
+  }
+}

@@ -1,78 +1,75 @@
-import React,{ useState } from 'react'
+import React, { useState } from 'react'
 import classNames from 'classnames'
-import TextField from '@material-ui/core/TextField'
-import { makeStyles } from '@material-ui/core/styles';
-import InputLabel from '@material-ui/core/InputLabel';
-import MenuItem from '@material-ui/core/MenuItem';
-import FormHelperText from '@material-ui/core/FormHelperText';
-import FormControl from '@material-ui/core/FormControl';
-import Select from '@material-ui/core/Select';
+import TextField from '@mui/material/TextField'
+import { makeStyles, createStyles } from '@mui/styles'
+import { createTheme } from '@mui/material/styles'
+import InputLabel from '@mui/material/InputLabel'
+import MenuItem from '@mui/material/MenuItem'
+import FormHelperText from '@mui/material/FormHelperText'
+import Autocomplete from '@mui/material/Autocomplete'
+import Select from '@mui/material/Select'
 import './Form.scss'
 
+const options = ['Abbvie', 'SCHD']
+
 const useStyles = makeStyles((theme) => ({
-    formControl: {
-      minWidth: 120,
-    },
-    selectEmpty: {
-      marginTop: theme.spacing(2),
-    },
-  }));
+  formControl: {
+    minWidth: 120,
+  },
+}))
 
 const Form = () => {
-     const classes = useStyles()
-     const [stock, setStock] = useState('')
-     const [stockValue, setStockValue] = useState('')
-     const [stockPrice, setStockPrice] = useState('')
-  
-     const handleChangeStock = (e) => {
-        setStock(e.target.value);
-    }
-      
-    const handleChangeValue = (e) => {
-        setStockValue(e.target.value)
-    }
+  const classes = useStyles()
+  const [stock, setStock] = useState(options[0])
+  const [stockValue, setStockValue] = useState('')
+  const [stockPrice, setStockPrice] = useState('')
 
-    const handleChangePrice = (e) => {
-        setStockPrice(e.target.value)
-    }
+  const handleChangeStock = (e) => {
+    setStock(e.target.value)
+  }
 
-    return (
-        <form className={classNames("form")}>
-            <div className='form__content'>
-                <div className='form__content-stock-value'>
-                    <TextField 
-                        id="standard-basic" 
-                        label="Input value of stoks"
-                        value={stockValue}
-                        onChange={handleChangeValue}
-                    /> 
-                </div>
-                <div className='form__content-stock-price'>
-                    <TextField 
-                        id="standard-basic" 
-                        label="Input stock price"
-                        value={stockPrice}
-                        onChange={handleChangePrice}
-                    /> 
-                </div>
-                <div className='form__content-stock-list'>
-                    <FormControl className={classes.formControl}>
-                        <InputLabel id="demo-simple-select-label">Stocks</InputLabel>
-                        <Select
-                            labelId="demo-simple-select-label"
-                            id="demo-simple-select"
-                            value={stock}
-                            onChange={handleChangeStock}
-                        >
-                            <MenuItem value={10}>SCHD</MenuItem>
-                            <MenuItem value={20}>AbbV</MenuItem>
-                            <MenuItem value={30}>VOO</MenuItem>
-                        </Select>
-                    </FormControl>   
-                </div>
-            </div>
-        </form>
-    )
+  const handleChangeValue = (e) => {
+    setStockValue(e.target.value)
+  }
+
+  const handleChangePrice = (e) => {
+    setStockPrice(e.target.value)
+  }
+
+  return (
+    <form className={classNames('form')}>
+      <div className="form__content">
+        <div className="form__content-stock-value">
+          <TextField
+            id="standard-basic"
+            label="Input value of stoks"
+            value={stockValue}
+            onChange={handleChangeValue}
+          />
+        </div>
+        <div className="form__content-stock-price">
+          <TextField
+            id="standard-basic"
+            label="Input stock price"
+            value={stockPrice}
+            onChange={handleChangePrice}
+          />
+        </div>
+        <div className="form__content-stock-list">
+          <Autocomplete
+            value={stock}
+            onChange={(event, newValue) => {
+              setStock(newValue)
+            }}
+            id="controllable-states-demo"
+            options={options}
+            sx={{ width: 300 }}
+            renderInput={(params) => <TextField {...params} label="Stocks" />}
+          />
+        </div>
+      </div>
+    </form>
+  )
 }
 
 export default Form
