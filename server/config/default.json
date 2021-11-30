@@ -1,5 +1,5 @@
 {
   "port": 5000,
   "jwtSecret": "university app",
-  "URL": "mongodb+srv://upmycode:Gv7l19sd839741@cluster0.yfb6f.mongodb.net/myFirstDatabase?retryWrites=true&w=majority"
+  "URI": "mongodb+srv://upmycode:Gv7l19sd839741@cluster0.yfb6f.mongodb.net/myFirstDatabase?retryWrites=true&w=majority"
 }

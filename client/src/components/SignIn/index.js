@@ -1,11 +1,33 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect, useContext } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { useHttp } from '../../hooks/http.hooks'
+import { AuthContext } from '../../context/AuthContext'
 import './SignIn.scss'
 
 const SignIn = () => {
+  const { token, login, logout, userId, isAuthenticated } =
+    useContext(AuthContext)
+  const { loading, error, request, authorized, isAuthorized } = useHttp()
   const history = useNavigate()
-  const [username, setEmail] = useState('')
+  const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
+
+  const authHandler = async () => {
+    try {
+      const data = await request(
+        'http://localhost:5000/auth/sign-in',
+        'POST',
+        {
+          email: email,
+          password: password,
+        },
+        {
+          'Content-Type': 'application/json;charset=utf-8',
+        }
+      )
+      login(data.token, data.userId)
+    } catch (e) {}
+  }
 
   return (
     <div className="signin__container">
@@ -31,7 +53,9 @@ const SignIn = () => {
             />
           </label>
           <div className="signin__container-main-form-button">
-            <button>Sign In</button>
+            <button onClick={authHandler} disabled={loading}>
+              Sign In
+            </button>
           </div>
         </form>
       </section>

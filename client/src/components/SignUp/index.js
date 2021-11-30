@@ -1,15 +1,34 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
+import { useHttp } from '../../hooks/http.hooks'
 import { useNavigate } from 'react-router-dom'
 import ArrowBackIcon from '@mui/icons-material/ArrowBack'
 import './SignUp.scss'
 
 const SignUp = () => {
+  const { loading, error, request } = useHttp()
   const history = useNavigate()
   const [username, setUsername] = useState('')
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [confirmPassword, setConfirmPassword] = useState('')
 
+  // useEffect(() => {}, [error])
+
+  const registerHandler = async () => {
+    try {
+      const data = await request(
+        'http://localhost:5000/auth/sign-up',
+        'POST',
+        {
+          email: email,
+          password: password,
+        },
+        {
+          'Content-Type': 'application/json;charset=utf-8',
+        }
+      )
+    } catch (e) {}
+  }
   return (
     <div className="signup__container">
       <section className="signup__container-header">
@@ -49,7 +68,9 @@ const SignUp = () => {
               id="confirm-password"
             />
             <div className="signup__container-main-form-button">
-              <button>Sign In</button>
+              <button onClick={registerHandler} disabled={loading}>
+                Sign Up
+              </button>
             </div>
           </label>
         </form>
@@ -62,7 +83,7 @@ const SignUp = () => {
           >
             {' '}
             <ArrowBackIcon />
-            Sign In
+            Sign Up
           </span>
         </p>
       </section>
