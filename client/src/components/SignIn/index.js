@@ -2,12 +2,23 @@ import React, { useState, useEffect, useContext } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useHttp } from '../../hooks/http.hooks'
 import { AuthContext } from '../../context/AuthContext'
+import { useStoreStocks } from '../../hooks/stocks.storage.hook'
 import './SignIn.scss'
 
 const SignIn = () => {
-  const { token, login, logout, userId, isAuthenticated } =
-    useContext(AuthContext)
-  const { loading, error, request, authorized, isAuthorized } = useHttp()
+  const {
+    token,
+    login,
+    logout,
+    userId,
+    alertSwitcher,
+    setAlertSwitcher,
+    context,
+    setContext,
+    isAuthenticated,
+  } = useContext(AuthContext)
+  const { loading, error, request, authorized, isAuthorized, clearError } =
+    useHttp()
   const history = useNavigate()
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
@@ -28,6 +39,14 @@ const SignIn = () => {
       login(data.token, data.userId)
     } catch (e) {}
   }
+
+  useEffect(() => {
+    if (error) {
+      setAlertSwitcher(true)
+      setContext(error)
+      clearError()
+    }
+  }, [error, clearError])
 
   return (
     <div className="signin__container">

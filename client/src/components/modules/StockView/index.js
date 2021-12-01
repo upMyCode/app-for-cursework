@@ -1,9 +1,19 @@
-import React, { useState } from 'react'
+import React, { useState, useContext } from 'react'
 import classNames from 'classnames'
 import { Form, Block } from '../../../components'
+import { AuthContext } from '../../../context/AuthContext'
 import './StockView.scss'
 
 const StockView = () => {
+  const {
+    token,
+    login,
+    logout,
+    userId,
+    isAuthenticated,
+    alertSwitcher,
+    setAlertSwitcher,
+  } = useContext(AuthContext)
   return (
     <div className={classNames('container__stockview')}>
       <Block>

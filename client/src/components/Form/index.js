@@ -16,6 +16,7 @@ import Autocomplete from '@mui/material/Autocomplete'
 import { useHttp } from '../../hooks/http.hooks'
 import Select from '@mui/material/Select'
 import { AuthContext } from '../../context/AuthContext'
+import { useStoreStocks } from '../../hooks/stocks.storage.hook'
 import './Form.scss'
 
 const useStyles = makeStyles((theme) => ({
@@ -26,21 +27,26 @@ const useStyles = makeStyles((theme) => ({
 
 const Form = () => {
   const { loading, error, request, authorized, isAuthorized } = useHttp()
-  const { token, login, logout, userId, isAuthenticated } =
-    useContext(AuthContext)
+  const {
+    token,
+    login,
+    logout,
+    userId,
+    isAuthenticated,
+    alertSwitcher,
+    setAlertSwitcher,
+    setContext,
+    setPriceStocksText,
+    setValueStocksText,
+    setTickerName,
+  } = useContext(AuthContext)
   const classes = useStyles()
   const [options, setOptions] = useState([])
   const [stock, setStock] = useState(options[0])
   const [stockValue, setStockValue] = useState('')
   const [stockPrice, setStockPrice] = useState('')
   const history = useNavigate()
-  const [price, setPrice] = useState('0')
-  const [values, setValues] = useState({
-    password: '',
-    weight: '',
-    weightRange: '',
-    showPassword: false,
-  })
+  const [price, setPrice] = useState('')
 
   useEffect(() => {
     if (stockValue && stockPrice && stock) {
@@ -58,6 +64,13 @@ const Form = () => {
     fetchData()
   }, [])
 
+  const setAlertHandler = () => {
+    setAlertSwitcher(true)
+    setPriceStocksText(price)
+    setValueStocksText(stockValue)
+    setTickerName(stock)
+  }
+
   const handleChangeStock = (e) => {
     setStock(e.target.value)
   }
@@ -70,17 +83,6 @@ const Form = () => {
     setStockPrice(e.target.value)
   }
 
-  const handleChange = (prop) => (event) => {
-    setValues({ ...values, [prop]: event.target.value })
-  }
-
-  const handleClickShowPassword = () => {
-    setValues({
-      ...values,
-      showPassword: !values.showPassword,
-    })
-  }
-
   const handleMouseDownPassword = (event) => {
     event.preventDefault()
   }
@@ -88,6 +90,8 @@ const Form = () => {
   const exitHandler = () => {
     logout()
     history('/auth/sign-in')
+    setAlertSwitcher(false)
+    setContext('')
   }
 
   return (
@@ -105,7 +109,7 @@ const Form = () => {
           <div className="form__content-main-group-1-stock-price">
             <TextField
               id="standard-basic"
-              label="Input stock price"
+              label="$ Input stock price"
               value={stockPrice}
               onChange={handleChangePrice}
             />
@@ -113,7 +117,7 @@ const Form = () => {
           <div className="form__content-main-group-1-stock-list">
             <Autocomplete
               value={stock}
-              onChange={(event, newValue) => {
+              onChange={(_, newValue) => {
                 setStock(newValue)
               }}
               id="controllable-states-demo"
@@ -129,7 +133,6 @@ const Form = () => {
             <OutlinedInput
               id="outlined-adornment-amount"
               value={price}
-              onChange={handleChange('amount')}
               startAdornment={
                 <InputAdornment position="start">$</InputAdornment>
               }
@@ -139,11 +142,7 @@ const Form = () => {
         </div>
         <div className="form__content-footer">
           <Button
-            onClick={() =>
-              alert(
-                `Вы приобрели тикер ${stock} в количестве ${stockValue} штук по цене $ ${price}`
-              )
-            }
+            onClick={setAlertHandler}
             size="large"
             variant="outlined"
             color="success"

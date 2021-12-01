@@ -10,9 +10,6 @@ const SignUp = () => {
   const [username, setUsername] = useState('')
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
-  const [confirmPassword, setConfirmPassword] = useState('')
-
-  // useEffect(() => {}, [error])
 
   const registerHandler = async () => {
     try {
@@ -22,6 +19,7 @@ const SignUp = () => {
         {
           email: email,
           password: password,
+          username: username,
         },
         {
           'Content-Type': 'application/json;charset=utf-8',
@@ -60,19 +58,11 @@ const SignUp = () => {
               id="password"
             />
           </label>
-          <label htmlFor="confirm-password">
-            <p>Confirm Password</p>
-            <input
-              onChange={(e) => setConfirmPassword(e.target.value)}
-              type="password"
-              id="confirm-password"
-            />
-            <div className="signup__container-main-form-button">
-              <button onClick={registerHandler} disabled={loading}>
-                Sign Up
-              </button>
-            </div>
-          </label>
+          <div className="signup__container-main-form-button">
+            <button onClick={registerHandler} disabled={loading}>
+              Sign Up
+            </button>
+          </div>
         </form>
       </section>
       <section className="signup__container-footer">
