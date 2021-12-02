@@ -6,19 +6,21 @@ import Collapse from '@mui/material/Collapse'
 import CloseIcon from '@mui/icons-material/Close'
 import Button from '@mui/material/Button'
 
-const AlertComponent = ({ context }) => {
+const AlertComponent = ({ context, color }) => {
   const [open, setOpen] = React.useState(true)
   return (
     <Box
       sx={{
-        width: '20%',
+        width: '30%',
         display: 'flex',
+        marginBottom: '10px',
         justifyContent: 'center',
         flexDirection: 'column',
       }}
     >
       <Collapse in={open}>
         <Alert
+          severity={color}
           action={
             <IconButton
               aria-label="close"

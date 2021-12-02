@@ -15,6 +15,7 @@ export const useHttp = () => {
   } = useContext(AuthContext)
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
+  const [message, setMessage] = useState('')
 
   const request = useCallback(
     async (url, method = 'GET', body = null, headers = {}) => {
@@ -31,6 +32,8 @@ export const useHttp = () => {
         if (!response.ok) {
           setError(data.message)
           throw new Error(data.message || 'We have some problem')
+        } else {
+          setMessage(data.message)
         }
 
         setLoading(false)
@@ -45,6 +48,7 @@ export const useHttp = () => {
   )
 
   const clearError = useCallback(() => setError(''), [])
+  const clearMessage = useCallback(() => setMessage(''), [])
 
-  return { loading, request, error, clearError }
+  return { loading, request, error, clearError, message, clearMessage }
 }

@@ -1,11 +1,25 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useContext } from 'react'
 import { useHttp } from '../../hooks/http.hooks'
 import { useNavigate } from 'react-router-dom'
+import { AuthContext } from '../../context/AuthContext'
 import ArrowBackIcon from '@mui/icons-material/ArrowBack'
 import './SignUp.scss'
 
 const SignUp = () => {
-  const { loading, error, request } = useHttp()
+  const {
+    token,
+    login,
+    logout,
+    userId,
+    alertSwitcher,
+    setAlertSwitcher,
+    context,
+    setContext,
+    setMessageColor,
+    isAuthenticated,
+  } = useContext(AuthContext)
+  const { loading, error, request, message, clearMessage, clearError } =
+    useHttp()
   const history = useNavigate()
   const [username, setUsername] = useState('')
   const [email, setEmail] = useState('')
@@ -27,6 +41,21 @@ const SignUp = () => {
       )
     } catch (e) {}
   }
+
+  useEffect(() => {
+    if (message !== '') {
+      setAlertSwitcher(true)
+      setContext(message)
+      setMessageColor('success')
+      clearMessage()
+    } else if (!message && error) {
+      setAlertSwitcher(true)
+      setContext(error)
+      setMessageColor('error')
+      clearError()
+    }
+  }, [message, clearError, error, clearMessage])
+
   return (
     <div className="signup__container">
       <section className="signup__container-header">

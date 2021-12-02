@@ -13,6 +13,7 @@ const App = () => {
   const [alertSwitcher, setAlertSwitcher] = useState(false)
   const [priceStocksText, setPriceStocksText] = useState('')
   const [valueStocksText, setValueStocksText] = useState('')
+  const [messageColor, setMessageColor] = useState('success')
   const [tickerName, setTickerName] = useState('')
   const [context, setContext] = useState('')
   const { token, login, logout, userId } = useAuth()
@@ -22,10 +23,12 @@ const App = () => {
   useEffect(() => {
     if (isAuthenticated) {
       setAlertSwitcher(true)
+      setMessageColor('success')
       setContext('Вы авторизированы')
     }
     if (priceStocksText && valueStocksText && tickerName && isAuthenticated) {
       setAlertSwitcher(true)
+      setMessageColor('success')
       setContext(
         `Вы приобрели ${tickerName} в количестве ${valueStocksText} по цене $ ${priceStocksText}`
       )
@@ -47,13 +50,18 @@ const App = () => {
         setPriceStocksText,
         setValueStocksText,
         setTickerName,
+        setMessageColor,
         isAuthenticated,
       }}
     >
       <Router>
         <div className="wrapper">
           <div className="wrapper__container">
-            {alertSwitcher ? <AlertComponent context={context} /> : ''}
+            {alertSwitcher ? (
+              <AlertComponent context={context} color={messageColor} />
+            ) : (
+              ''
+            )}
             {routes}
           </div>
         </div>

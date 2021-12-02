@@ -71,6 +71,8 @@ router.post(
       const user = new User({ username, email, password: hashedPassword });
 
       await user.save();
+
+      res.status(201).json({ message: "Вы успешно зарегистрировались" });
     } catch (e) {
       res.status(500).json({ message: "We have a some trouble" });
     }

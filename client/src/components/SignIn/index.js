@@ -15,6 +15,7 @@ const SignIn = () => {
     setAlertSwitcher,
     context,
     setContext,
+    setMessageColor,
     isAuthenticated,
   } = useContext(AuthContext)
   const { loading, error, request, authorized, isAuthorized, clearError } =
@@ -44,6 +45,7 @@ const SignIn = () => {
     if (error) {
       setAlertSwitcher(true)
       setContext(error)
+      setMessageColor('error')
       clearError()
     }
   }, [error, clearError])
